@@ -1,0 +1,1017 @@
+/**
+ * The application configuration.
+ * @author René
+ */
+application {
+    config {
+        applicationType gateway
+        authenticationType jwt 
+        baseName gateway 
+        buildTool maven
+        cacheProvider ehcache
+        clientFramework angular
+        databaseType sql
+        devDatabaseType postgresql
+        languages [es, en]
+        packageName ec.gob.loja.gateway
+        prodDatabaseType postgresql
+        reactive true 
+        serviceDiscoveryType eureka
+    }
+    entities *
+}
+
+/**
+ * The application configuration.
+ * @author René
+ */
+application {
+    config {
+        baseName citasmedicas
+        reactive true
+        packageName salud.gob.ec.citasmedicas
+        applicationType microservice
+        authenticationType jwt
+        buildTool maven
+        cacheProvider ehcache
+        databaseType sql
+        devDatabaseType postgresql
+        prodDatabaseType postgresql
+        enableHibernateCache true
+        serverPort 8081
+        serviceDiscoveryType eureka
+    }
+    entities Cronograma, DetalleCronograma, Turno, BloqueoTurno, CitaMedica
+}
+
+/**
+ * The application configuration.
+ * @author René
+ */
+application {
+    config {
+        baseName establecimientos
+        reactive true
+        packageName salud.gob.ec.establecimientos
+        applicationType microservice
+        authenticationType jwt
+        buildTool maven
+        cacheProvider ehcache
+        databaseType sql
+        devDatabaseType postgresql
+        prodDatabaseType postgresql
+        enableHibernateCache true
+        serverPort 8082
+        serviceDiscoveryType eureka
+    }
+    entities Zona, Provincia, Distrito, Canton, Circuito, Parroquia, Entidad, Institucion, Establecimiento, DoctorEspecialidadEstablecimiento, Festivo, UsuarioEstablecimiento, EstablecimientoFestivo, HorarioEstablecimiento, NivelEstablecimiento, TipoEstablecimiento
+}
+
+
+/**
+ * The application configuration.
+ * @author René
+ */
+application {
+    config {
+        baseName serviciosmedicos
+        reactive true
+        packageName salud.gob.ec.serviciosmedicos
+        applicationType microservice
+        authenticationType jwt
+        buildTool maven
+        cacheProvider ehcache
+        databaseType sql
+        devDatabaseType postgresql
+        prodDatabaseType postgresql
+        enableHibernateCache true
+        serverPort 8083
+        serviceDiscoveryType eureka
+    }
+    entities Formulario053, Formulario053Contrareferencia, Formulario053Referencia, Cie, ItemCie, MotivoReferencia, DiagnosticoFormulario053, Tramite, TipoTramite, Documento, DocumentoTramite, Procedimiento, ContinuidadAsistencial, ItemLiquidacion, Terapia, Tarifario
+}
+
+
+/** --------------------------- COMUN ------------------------------- **/
+/**
+ * The Catalogo entity.
+ * @author Usuario
+ */
+entity Catalogo {
+    /** nombre */
+    nombre String required
+    /** codigo */
+    codigo String required unique
+    /** descripcion */
+    descripcion String
+}
+
+/**
+ * The CatalogoItem entity.
+ * @author Usuario
+ */
+entity CatalogoItem {
+    /** nombre */
+    nombre String required
+    /** codigo */
+    codigo String required
+    /** descripcion */
+    descripcion String
+    /** catalogo Codigo */
+    catalogoCodigo String required
+    /** activo */
+    activo Boolean
+}
+
+/**
+ * The ParametroSistema entity.
+ * @author Usuario
+ */
+entity ParametroSistema {
+    /** nombre */
+    nombre String required
+    /** codigo */
+    codigo String required unique
+    /** clase de java */
+    clase String required
+    /** valor */
+    valor String required
+}
+
+/**
+ * The Funcionalidad entity.
+ * @author Usuario
+ */
+entity Funcionalidad {
+    /** nombre */
+    nombre String required
+    /** descripcion */
+    descripcion String
+    /** url */
+    url String maxlength(80)
+    /** activo */
+    activo Boolean required
+    /** icono menu */
+    icono String
+    /** visible */
+    visible Boolean
+}
+
+/**
+ * The RolFuncionalidad entity.
+ * @author Usuario
+ */
+entity RolFuncionalidad {
+    /** rol */
+    rol String required
+    /** activo */
+    activo Boolean
+    /** prioridad */
+    prioridad Integer required
+}
+
+
+/** --------------------------- NEGOCIO ------------------------------- **/
+/**
+ * The Persona entity.
+ * @author Usuario
+ */
+entity Persona {
+    /** identificacion */
+    identificacion String required
+    /** primer apellido*/
+    primerApellido String required
+    /** segundo apellido */
+    segundoApellido String
+    /** primer Nombre */
+    primerNombre String required
+    /** segundo Nombre */
+    segundoNombre String
+
+    /** celular */
+    celular String
+    /** telefono convencional */
+    telefonoConvencional String
+    /** correo */
+    correo String
+}
+
+/**
+ * The Discapacidad entity.
+ * @author Usuario
+ */
+entity Discapacidad {
+    /** porcentaje */
+    porcentaje  BigDecimal required
+}
+
+/**
+ * The Zona entity.
+ * @author Usuario
+ */
+entity Zona {
+    /** codigo */
+    codigo String required
+    /** nombre */
+    nombre String required
+    /** estadoId */
+    estadoId Long required
+}
+
+/**
+ * The Provincia entity.
+ * @author Usuario
+ */
+entity Provincia {
+    /** codigo */
+    codigo String required
+    /** nombre */
+    nombre String required
+}
+
+/**
+ * The Distrito entity.
+ * @author Usuario
+ */
+entity Distrito {
+    /** codigo */
+    codigo String required
+    /** nombre */
+    nombre String required
+}
+
+/**
+ * The Canton entity.
+ * @author Usuario
+ */
+entity Canton {
+    /** codigo */
+    codigo String required
+    /** nombre */
+    nombre String required
+}
+
+/**
+ * The Circuito entity.
+ * @author Usuario
+ */
+entity Circuito {
+    /** codigo */
+    codigo String required
+    /** nombre */
+    nombre String required
+}
+
+/**
+ * The Parroquia entity.
+ * @author Usuario
+ */
+entity Parroquia {
+    /** codigo */
+    codigo String required
+    /** nombre */
+    nombre String required
+    /** tipoId */
+    tipoId Long required
+}
+
+/**
+ * The Entidad entity.
+ * @author Usuario
+ */
+entity Entidad {
+    /** codigo de la entidad*/
+    codigo String required
+    /** nombre de la entidad*/
+    nombre String required
+    /** ruc de la entidad*/
+    ruc String required
+}
+
+/**
+ * The Institucion entity.
+ * @author usuario
+ */
+entity Institucion {
+    /** codigo */
+    codigo String required
+    /** nombre */
+    nombre String required
+    /** permite Derivacion? */
+    permiteDerivacion Boolean required
+    /** permite Referencia? */
+    permiteReferencia Boolean required
+    /** permite Contrareferencia? */
+    permiteContrareferencia Boolean required
+    /** estadoId */
+    estadoId Long required
+}
+
+/**
+ * The Establecimiento entity.
+ * @author Usuario
+ */
+entity Establecimiento {
+    /** unicodigo del establecimiento */
+    unicodigo String required
+    /** nombre del establecimiento */
+    nombre String required
+    /** barrio */
+    barrio String
+    /** direccion */
+    direccion String
+    /** referenciax */
+    referencia String
+    /** telefono */
+    telefono String
+    /** ambitoId */
+    ambitoId Long required
+    /** estadoId */
+    estadoId Long required
+    
+}
+
+/**
+ * The Doctor entity.
+ * @author Usuario
+ */
+entity Doctor {
+    /** codigo */
+    codigo String
+    /** activo */
+    activo Boolean
+}
+
+/**
+ * The DoctorEspecialidadEstablecimiento entity.
+ * @author A true hipster
+ */
+entity DoctorEspecialidadEstablecimiento {
+    /** activo */
+    activo Boolean
+    /** doctorId */
+    doctorId Long required
+    /** especialidadId */
+    especialidadId Long required
+}
+
+entity ProvinciaTerritorio {
+    /** codigo */
+    codigo String required
+    /** nombre */
+    nombre String required
+    /** pais */
+    pais String required
+}
+
+entity CantonTerritorio {
+    /** codigo */
+    codigo String required
+    /** nombre */
+    nombre String required
+}
+
+entity ParroquiaTerritorio {
+    /** codigo */
+    codigo String required
+    /** nombre */
+    nombre String required
+}
+
+/**
+ * The Paciente entity.
+ * @author Usuario
+ */
+entity Paciente {
+    /** lugarNacimiento */
+    lugarNacimiento String required
+    /** fecha de nacimiento */
+    fechaNacimiento LocalDate required
+    /** calle principal */
+    callePrincipal String
+    /** numero */
+    numeroCasa String
+    /** calle secundaria */
+    calleSecundaria String
+    /** barrio */
+    barrio String required
+    /** referencia de domicilio */
+    referenciaDomicilio String
+    /** seguro Salud Secundario */
+    seguroSaludSecundario String
+    /** identificacion de representante en caso de aplicar */
+    identificacionRepresentante String
+}
+
+/**
+ * The ContactoEmergenciaPaciente entity.
+ * @author Usuario
+ */
+entity ContactoEmergenciaPaciente {
+    /** nombre */
+    nombre String required
+    /** telefono */
+    telefono String
+    /** direccion */
+    direccion String
+}
+
+/**
+ * The Especialidad entity.
+ * @author Usuario
+ */
+entity Especialidad {
+	/** nombre */
+    nombre String required
+    /** activa */
+    activa Boolean required
+}
+
+/**
+ * The Festivo entity.
+ * @author Usuario
+ */
+entity Festivo {
+    /** nombre de periodo festivo */
+	nombre String required
+    /** fecha de inicio de periodo festivo */
+	fechaInicio LocalDate required
+    /** fecha de fin de periodo festivo */
+    fechaFin LocalDate required
+    /** activo? */
+    activo Boolean required
+}
+
+/**
+ * The Cronograma entity.
+ * @author Usuario
+ */
+entity Cronograma {
+    /** fecha de inicio de cronograma */
+	fechaInicio LocalDate required
+    /** fecha de fin de cronograma */
+    fechaFin LocalDate required
+    /** cronograma activo? */
+    activo Boolean required
+    /** especialidadId */
+    especialidadId Long required
+    /** doctorId */
+    doctorId Long required
+    /** establecimientoId */
+    establecimientoId Long required
+}
+
+/**
+ * The DetalleCronograma entity.
+ * @author Usuario
+ */
+entity DetalleCronograma {
+    /** fecha */
+    fecha LocalDate required
+    /** cantidad */
+	cantidad Integer
+    /** activo? */
+    activo Boolean
+    /** fecha desactivacion de turno */
+    fechaDesactivacion LocalDate
+    /** tipoId */
+    tipoId Long required
+}
+
+/**
+ * The CitaMedica entity.
+ * @author Usuario
+ */
+entity CitaMedica {
+    /** fecha de cita medica */
+	fechaInicioAtencion LocalDate
+    /** hora finalizacion atencion cita medica */
+    fechaFinAtencion LocalDate
+    /** hora inicio atencion cita medica */
+    horaInicioAtencion Instant
+    /** hora finalizacion atencion de cita medica */
+    horaFinAtencion Instant
+    /** cita activa, no borrada */
+    activa Boolean required
+    /** observacion cita medica */
+    observacion String
+    /** estadoId */
+    estadoId Long required
+    /** pacienteId */
+    pacienteId Long required
+    /** tramiteId */
+    tramiteId Long
+}
+
+
+/**
+ * The Turno entity.
+ * @author Usuario
+ */
+entity Turno {
+    /** orden del turno*/
+    orden Integer required
+    /** horaInicio */
+    horaInicio Instant required
+    /** horaFin */
+    horaFin Instant required
+    /** activo? */
+    activo Boolean
+    /** es turno extra? */
+    extra Boolean required
+}
+
+/**
+ * The TurnoTipo entity.
+ * @author Usuario
+
+entity DetalleTipo {
+    // orden
+    // cantidad turnos asigandos
+    cantidad Integer
+}*/
+
+/**
+ * The BloqueoTurno entity.
+ * @author Usuario
+ */
+entity BloqueoTurno {
+    /** fecha */
+	fecha LocalDate
+    /** explicacion de bloqueo */
+    explicacion String
+    /** bloqueo activo? */
+    activo Boolean
+
+}
+
+/**
+ * The UsuarioEstablecimiento entity.
+ * @author Usuario
+ */
+entity UsuarioEstablecimiento {
+    /** usuario activo para determinado establecimiento*/
+    activo Boolean required
+    /** usuarioId */
+    usuarioId Long required
+    /** tipoId */
+    tipoId Long required
+}
+
+/**
+ * The Cie entity.
+ * @author Usuario
+ */
+entity Cie {
+    /** nombre */
+    nombre String required
+    /** activo */
+    activo Boolean required
+}
+
+/**
+ * The ItemCie entity.
+ * @author Usuario
+ */
+entity ItemCie {
+    /** nombre */
+    nombre String required
+    /** codigo */
+    codigo String required
+    /** activo */
+    activo Boolean required
+}
+
+/**
+ * The Formulario053 entity.
+ * @author Usuario
+ */
+entity Formulario053 {
+    /** fecha */
+    fecha LocalDate required
+    /** numeroHistoriaClinica */
+    numeroHistoriaClinica String required
+    /** servicioEspecialidad */
+    servicioEspecialidad String required
+    /** tipoId   */
+    tipoId Long required
+    /** pacienteId */
+    pacienteId Long required
+    /** doctorId */
+    doctorId Long required
+    /** establecimientoOrigenId */
+    establecimientoOrigenId Long required
+    /** establecimientoDestinoId */
+    establecimientoDestinoId Long required
+    /** especialidadId */
+    especialidadId Long required
+}
+
+/**
+ * The Formulario053Referencia entity.
+ * @author Usuario
+ */
+entity Formulario053Referencia {
+    /** cuadroClinico */
+    cuadroClinico String
+    /** hallazgosRelevantes */
+    hallazgosRelevantes String
+
+}
+
+/**
+ * The MotivoReferencia entity.
+ * @author Usuario
+ */
+entity MotivoReferencia {
+    /** detalle */
+    detalle String
+    /** tipoId */
+    tipoId Long required
+}
+
+/**
+ * The DiagnosticoFormulario053 entity.
+ * @author Usuario
+ */
+entity DiagnosticoFormulario053 {
+    /** dep */
+    dep Boolean required
+    /** pre */
+    pre Boolean required
+}
+
+/**
+ * The Formulario053Contrareferencia entity.
+ * @author Usuario
+ */
+entity Formulario053Contrareferencia {
+    /** hallazgosRelevantes */
+    hallazgosRelevantes String
+    /** resumen */
+    resumen String
+    /** tratamientoProcedimientosRealizados */
+    tratamientoProcedimientosRealizados String
+    /** tratamientoRecomendado */
+    tratamientoRecomendado String
+    /** referenciaJustificada */
+    referenciaJustificada Boolean required
+}
+
+/**
+ * The Tramite entity.
+ * @author Usuario
+ */
+entity Tramite {
+    /** codigoValidacion */
+    codigoValidacion String required
+    /** numero */
+    numero String
+    /** estadoId */
+    estadoId Long required
+    /** pacienteId */
+    pacienteId Long required
+    /** establecimientoOrigenId */
+    establecimientoOrigenId Long required
+    /** establecimientoDestinoId */
+    establecimientoDestinoId Long required
+}
+
+/**
+ * The TipoTramite entity.
+ * @author Usuario
+ */
+entity TipoTramite {
+    /** nombre */
+    nombre String required
+    /** codigo */
+    codigo String
+    /** estadosId */
+    estadosId Long required
+}
+
+/**
+ * The Documento entity.
+ * @author Usuario
+ */
+entity Documento {
+    /** nombre  */
+    nombre String required
+    /** requerido */
+    requerido Boolean required
+    /** codigo  */
+    codigo String
+}
+
+/**
+ * The DocumentoTramite entity.
+ * @author Usuario
+ */
+entity DocumentoTramite {
+    /** nombre */
+    nombre String required
+    /** fecha */
+    fecha LocalDate required
+    /** url */
+    url String required
+}
+
+/**
+ * The Procedimiento entity.
+ * @author Usuario
+ */
+entity Procedimiento {
+    /** fecha */
+    fecha LocalDate required
+    /** observacion */
+    observacion String
+    /** estadoId */
+    estadoId Long required
+    /** usuarioId */
+    usuarioId Long required
+}
+
+/**
+ * The ContinuidadAsistencial entity.
+ * @author Usuario
+ */
+entity ContinuidadAsistencial {
+    /** observacion */
+    observacion String
+    /** servicioHospitalario */
+    servicioHospitalario String
+}
+
+/**
+ * The ItemLiquidacion entity.
+ * @author Usuario
+ */
+entity ItemLiquidacion {
+    /** fecha */
+    fecha LocalDate required
+    /** habilitado */
+    habilitado Boolean required
+}
+
+/**
+ * The Terapia entity.
+ * @author Usuario
+ */
+entity Terapia {
+    /** cantidad */
+    cantidad Integer required
+    /** descripcion */
+    descripcion String required
+    /** habilitado */
+    habilitado Boolean required
+    /** valorUnitarioEstablecimiento */
+    valorUnitarioEstablecimiento BigDecimal required
+}
+
+/**
+ * The Tarifario entity.
+ * @author Usuario
+ */
+entity Tarifario {
+    /** codigo */
+    codigo String required
+    /** descripcion */
+    descripcion String
+    /** valor */
+    valor  BigDecimal required
+}
+
+/**
+ * The FirmaDigital entity.
+ * @author Usuario
+ */
+entity FirmaDigital {
+    /** fechaDesde */
+    fechaDesde LocalDate required
+    /** fechaHasta */
+    fechaHasta LocalDate required
+    /** path */
+    path String
+}
+
+/**
+ * The EstablecimientoFestivo entity.
+ * @author Usuario
+ */
+entity EstablecimientoFestivo {
+    /** activo */
+    activo Boolean required
+}
+
+/**
+ * The NivelEstablecimiento entity.
+ * @author Usuario
+ */
+entity NivelEstablecimiento {
+    /** codigo */
+    codigo String
+    /** nombre */
+    nombre String required
+    /** descripcion */
+    descripcion String
+}
+
+/**
+ * The TipoEstablecimiento entity.
+ * @author Usuario
+ */
+entity TipoEstablecimiento {
+    /** codigo */
+    codigo String
+    /** nombre */
+    nombre String required
+    /** descripcion */
+    descripcion String
+}
+
+
+/**
+ * The HorarioEstablecimiento entity.
+ * @author Usuario
+ */
+entity HorarioEstablecimiento {
+    /** nombre */
+    nombre String required
+    /** numeroHoras */
+    numeroHoras Integer required
+    /** descripcion */
+    descripcion String
+    /** hora inicio */
+    horaInicio Instant
+    /** hora fin */
+    horaFin Instant
+    
+}
+
+/** -------------------------- RELACIONES ------------------------------- **/
+/**
+ * Many to one relationship.
+ */
+relationship ManyToOne {
+    /**	Funcionalidad asignada a rol */
+    RolFuncionalidad { funcionalidad(nombre) required } to Funcionalidad
+
+    /**	Tipo de identificacion */
+    Persona { tipoIdentificacion(nombre) required } to CatalogoItem
+    /**	discapacidad de persona en el caso de ser aplicable */
+    Paciente { discapacidad } to Discapacidad
+    /**	Nacionalidad de persona */
+    Persona { nacionalidad(nombre) required } to CatalogoItem
+
+    /**	Usuario asociado a persona */
+    Persona { usuario(login) } to User with builtInEntity
+
+    /**	Tipo de discapacidad */
+    Discapacidad { tipo(nombre) required } to CatalogoItem
+    /**	Estado de registro de discapacidad */
+    Discapacidad { estado(nombre) required } to CatalogoItem
+
+    /**	zona a la que pertenece la provincia */
+    Provincia { zona(nombre) required} to Zona
+    /**	Provincia a la que pertenece el  distrito*/
+    Distrito { provincia(nombre) } to Provincia
+    /**	Distrito al que pertenece el canton */
+    Canton { distrito(nombre) } to Distrito
+    /**	Canton al que pertenece el circuito */
+    Circuito { canton(nombre) } to Canton
+
+    /**	Circuito al que pertenece la parroquia */
+    Parroquia { circuito(nombre) } to Circuito
+
+    /**	Parroquia a la que pertenece el establecimiento */
+    Establecimiento { parroquia(nombre) required } to Parroquia
+    /**	Entidad a la que pertenece el establecimiento */
+    Establecimiento { entidad(nombre) required } to Entidad
+
+    /**	Institucion a la que pertenece el establecimiento */
+    Establecimiento { institucion(nombre) required } to Institucion
+
+    Persona{genero(nombre) required} to CatalogoItem
+
+    Persona{estadoCivil(nombre) required} to CatalogoItem
+
+    Persona{nacionalidad(nombre) required} to CatalogoItem
+
+    DoctorEspecialidadEstablecimiento {establecimiento(nombre) required} to Establecimiento
+
+    CantonTerritorio {provincia(nombre)} to ProvinciaTerritorio
+
+    ParroquiaTerritorio {canton(nombre)} to CantonTerritorio
+
+    Paciente{persona(primerNombre) required } to Persona
+
+    Paciente{parroquiaNacimiento(nombre)} to ParroquiaTerritorio
+
+    Paciente{parroquiaResidencia(nombre) required} to ParroquiaTerritorio
+
+    Paciente{autoidentificacionEtnica(nombre) required} to CatalogoItem
+
+    Paciente{nacionalidadEtnica(nombre)} to CatalogoItem
+
+    Paciente{pueblo(nombre)} to CatalogoItem
+
+    Persona{nivelEducacion(nombre) required } to CatalogoItem
+
+    Persona{estadoNivelEducacion(nombre) required } to CatalogoItem
+
+    Paciente{tipoEmpresaTrabajo(nombre) required } to CatalogoItem
+
+    Paciente{profesionOcupacion(nombre) required } to CatalogoItem
+
+    Paciente{seguroSaludPrincipal(nombre) required } to CatalogoItem
+
+    Paciente{tipoBono(nombre) required } to CatalogoItem
+
+    Paciente{procedenciaRepresentante(nombre) required } to CatalogoItem
+
+    ContactoEmergenciaPaciente{paciente required } to Paciente
+
+    ContactoEmergenciaPaciente{parentezco(nombre) required } to CatalogoItem
+
+    Doctor {persona(primerNombre) required} to Persona
+
+    Especialidad{tipo(nombre)} to CatalogoItem
+
+    DetalleCronograma{cronograma} to Cronograma
+    BloqueoTurno {turno} to Turno
+
+
+    UsuarioEstablecimiento{establecimiento(nombre) required} to Establecimiento
+
+    Turno{ detalleCronograma required } to DetalleCronograma
+
+    CitaMedica { turno required } to Turno
+
+    Formulario053Referencia { formulario} to Formulario053
+    // Formulario053Referencia { diagnostico} to DiagnosticoFormulario053
+
+    DiagnosticoFormulario053 { referencia } to Formulario053Referencia
+
+    DiagnosticoFormulario053 {contrareferencia} to Formulario053Contrareferencia
+
+    MotivoReferencia {referencia required} to Formulario053Referencia
+
+    Formulario053Contrareferencia { formulario} to Formulario053
+
+
+    DiagnosticoFormulario053{itemCie(nombre) required} to ItemCie
+
+
+    Tramite {formulario required} to Formulario053
+
+    Tramite {tipoTramite(nombre) required} to TipoTramite
+    
+    DocumentoTramite{documento(nombre) required} to Documento
+    DocumentoTramite{tramite(codigoValidacion) required} to Tramite
+    // DocumentoTramite{estado(nombre) required} to CatalogoItem
+
+    Procedimiento{tramite(codigoValidacion) required} to Tramite
+
+    ContinuidadAsistencial{itemCie(nombre)} to ItemCie
+
+    ItemLiquidacion{continuidad required} to ContinuidadAsistencial
+
+    Terapia{continuidad required} to ContinuidadAsistencial
+
+    Terapia{itemLiquidacion required} to ItemLiquidacion
+
+    Terapia{tarifario required} to Tarifario
+
+    FirmaDigital{tipo(nombre)} to CatalogoItem
+
+    EstablecimientoFestivo{establecimiento required} to Establecimiento
+    EstablecimientoFestivo{festivo required} to Festivo
+
+    FirmaDigital{persona(identificacion)} to Persona
+
+    TipoEstablecimiento{nivel(nombre)} to NivelEstablecimiento
+
+    Establecimiento{tipo(nombre) required } to TipoEstablecimiento
+
+    Establecimiento{horario(nombre) required } to HorarioEstablecimiento
+    
+}
+
+/**
+ * One to many relationship.
+ */
+relationship OneToMany {
+    Catalogo{items} to CatalogoItem
+    Funcionalidad{hijos} to Funcionalidad{padre}
+    Cie{items} to ItemCie
+    ItemCie{hijos} to ItemCie{padre}
+
+    TipoTramite {documentos} to Documento
+}
+
+microservice Zona, Provincia, Distrito, Canton, Circuito, Parroquia, Entidad, Institucion, Establecimiento, DoctorEspecialidadEstablecimiento, Festivo, UsuarioEstablecimiento, EstablecimientoFestivo, HorarioEstablecimiento, NivelEstablecimiento, TipoEstablecimiento with establecimientos
+microservice Cronograma, DetalleCronograma, Turno, BloqueoTurno, CitaMedica with citasmedicas
+microservice Formulario053, Formulario053Contrareferencia, Formulario053Referencia, Cie, ItemCie, MotivoReferencia, DiagnosticoFormulario053, Tramite, TipoTramite, Documento, DocumentoTramite, Procedimiento, ContinuidadAsistencial, ItemLiquidacion, Terapia, Tarifario with serviciosmedicos
+paginate * with pagination
+service all with serviceImpl
+dto * with mapstruct
